@@ -197,14 +197,16 @@
 				this.ready = false; // picker will emit 'ready' at the end of init
 				this.$refs.picker.init();
 
-				document.body.addEventListener('pointerdown', this.pickEnd);
+				document.body.addEventListener('pointerup', this.pickEnd);
 				this.$emit('pickStart');
 			},
 			pickEnd(e) {
 				if (!this.active || e && isSameNodeRecursive(e.target, this.$refs.picker.$refs.pickerRoot)) return;
-				document.body.removeEventListener('pointerdown', this.pickEnd);
-				this.active = false;
-				this.$emit('pickEnd');
+				document.body.removeEventListener('pointerup', this.pickEnd);
+				setTimeout(() => {
+        this.active = false;
+        this.$emit('pickEnd');
+      }, 50);
 			},
 			init() {
 				// get color
